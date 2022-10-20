@@ -1,6 +1,6 @@
 const textConfig = {
   text1: "Chào mừng các em đến với NEU club day",
-  text2: "Rất vui vì các em đã đến với Ban chương trình và hỗ trợ sự kiện N",
+  text2: "Rất vui vì các em đã đến với Ban Chương trình & Hỗ trợ Sự kiện_N",
   text3: "Em có muốn nhận quà từ anh chị không ?",
   text4: "Đừng thoát ra nhé, sẽ có điều bất ngờ dành cho em đấy!!",
   text5: "Thôi ngại lắm ạ",
@@ -138,7 +138,7 @@ $(document).ready(function () {
           text: textConfig.text11,
           confirmButtonColor: "#83d0c9",
           onClose: () => {
-            window.location = "http://fb.com";
+            window.location = "https://www.canva.com/design/DAFPgei-GDw/dNk_YnzI5d23FOzmMYlfXw/view";
           },
         });
       }
