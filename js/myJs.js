@@ -1,0 +1,156 @@
+const textConfig = {
+  text1: "Chào mừng các em đến với NEU club day",
+  text2: "Rất vui vì các em đã đến với Ban chương trình và hỗ trợ sự kiện N",
+  text3: "Em có muốn nhận quà từ anh chị không ?",
+  text4: "Đừng thoát ra nhé, sẽ có điều bất ngờ dành cho em đấy!!",
+  text5: "Thôi ngại lắm ạ",
+  text6: "Có ạ",
+  text7: "Viết gì đó cho anh chị nhé :D",
+  text8: "Gửi cho anh chị nhé :3",
+  text9: "Em muốn vào N đen ạaaaa",
+  text10: "Anh chị thương em, về [N]hà với anh chị nhé!!",
+  text11:
+    "Ở N các em sẽ không bao giờ đơn độc, bởi lẽ phía trước các em là anh chị, phía sau các em cũng là anh chị, và bên cạnh các em là những người bạn mà các em coi như là gia đình.",
+  text12: "Em muốn về [N]hà!!!!!",
+};
+
+$(document).ready(function () {
+  // process bar
+  setTimeout(function () {
+    firstQuestion();
+    $(".spinner").fadeOut();
+    $("#preloader").delay(350).fadeOut("slow");
+    $("body").delay(350).css({
+      overflow: "visible",
+    });
+  }, 600);
+
+  $("#text3").html(textConfig.text3);
+  $("#text4").html(textConfig.text4);
+  $("#no").html(textConfig.text5);
+  $("#yes").html(textConfig.text6);
+
+  function firstQuestion() {
+    $(".content").hide();
+    Swal.fire({
+      title: textConfig.text1,
+      text: textConfig.text2,
+      imageUrl: "img/Nden.jpg",
+      imageWidth: 300,
+      imageHeight: 300,
+      background: '#fff url("img/iput-bg.jpg")',
+      imageAlt: "Custom image",
+    }).then(function () {
+      $(".content").show(200);
+    });
+  }
+
+  // switch button position
+  function switchButton() {
+    var audio = new Audio("sound/duck.mp3");
+    audio.play();
+    var leftNo = $("#no").css("left");
+    var topNO = $("#no").css("top");
+    var leftY = $("#yes").css("left");
+    var topY = $("#yes").css("top");
+    $("#no").css("left", leftY);
+    $("#no").css("top", topY);
+    $("#yes").css("left", leftNo);
+    $("#yes").css("top", topNO);
+  }
+  // move random button póition
+  function moveButton() {
+    var audio = new Audio("sound/Swish1.mp3");
+    audio.play();
+    if (screen.width <= 600) {
+      var x = Math.random() * 300;
+      var y = Math.random() * 500;
+    } else {
+      var x = Math.random() * 500;
+      var y = Math.random() * 500;
+    }
+    var left = x + "px";
+    var top = y + "px";
+    $("#no").css("left", left);
+    $("#no").css("top", top);
+  }
+
+  var n = 0;
+  $("#no").mousemove(function () {
+    if (n < 1) switchButton();
+    if (n > 1) moveButton();
+    n++;
+  });
+  $("#no").click(() => {
+    if (screen.width >= 900) switchButton();
+  });
+
+  // generate text in input
+  function textGenerate() {
+    var n = "";
+    var text = " " + textConfig.text9;
+    var a = Array.from(text);
+    var textVal = $("#txtReason").val() ? $("#txtReason").val() : "";
+    var count = textVal.length;
+    if (count > 0) {
+      for (let i = 1; i <= count; i++) {
+        n = n + a[i];
+        if (i == text.length + 1) {
+          $("#txtReason").val("");
+          n = "";
+          break;
+        }
+      }
+    }
+    $("#txtReason").val(n);
+  }
+
+  // show popup
+  $("#yes").click(function () {
+    var audio = new Audio("sound/tick.mp3");
+    audio.play();
+    Swal.fire({
+      title: textConfig.text7,
+      html: true,
+      width: 900,
+      padding: "3em",
+      html: "<input type='text' class='form-control' id='txtReason'  placeholder='Anh chị sẽ cất nó trong tim chỉ chúng ta biết thôi nhé :3'>",
+      background: '#fff url("img/iput-bg.jpg")',
+      backdrop: `
+                    rgba(0,0,123,0.4)
+                    url("img/giphy2.gif")
+                    left top
+                    no-repeat
+                  `,
+      showCancelButton: false,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonColor: "#fe8a71",
+      cancelButtonColor: "#f6cd61",
+      confirmButtonText: textConfig.text8,
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          width: 900,
+          confirmButtonText: textConfig.text12,
+          background: '#fff url("img/iput-bg.jpg")',
+          title: textConfig.text10,
+          text: textConfig.text11,
+          confirmButtonColor: "#83d0c9",
+          onClose: () => {
+            window.location = "http://fb.com";
+          },
+        });
+      }
+    });
+
+    $("#txtReason").focus(function () {
+      var handleWriteText = setInterval(function () {
+        textGenerate();
+      }, 10);
+      $("#txtReason").blur(function () {
+        clearInterval(handleWriteText);
+      });
+    });
+  });
+});
